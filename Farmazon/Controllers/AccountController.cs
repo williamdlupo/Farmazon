@@ -215,16 +215,12 @@ namespace Farmazon.Controllers
             }
             return View(farmModel);
         }
-
-        //
-        // GET: /Account/Register
+        
         public ActionResult FillInventory()
         {
             return View();
         }
-
-        //
-        // POST: /Account/Createfarm
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> FillInventory(Inventory inventory)
