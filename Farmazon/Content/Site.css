@@ -304,16 +304,23 @@ a {
 /*
     Farmers Profile
 */
+.farmProfileHead {
+    margin: 15px 0;
+    font-size: 25pt;
+    padding: 0px;
+}
+
 .farmProfileBody  {
     font-size:25pt;
     margin-bottom: 0px;
     padding:0px;
     
 }
-.farmProfileBody img {
+.farmProfileBody > div > img {
     margin-bottom: 5px;
     padding: 5px;
-    
+    margin-right: 10px;
+    border-radius: 120px;
 }
 .farmProfileBody .description {
 

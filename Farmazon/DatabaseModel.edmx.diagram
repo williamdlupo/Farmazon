@@ -6,10 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="2a71868afaa849c8909d19c54f553ab3" Name="Diagram1">
         <EntityTypeShape EntityType="Farmazon_dbModel.Farm" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Farmazon_dbModel.MarketItem" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <AssociationConnector Association="Farmazon_dbModel.Market_to_Inventory" />
-        <EntityTypeShape EntityType="Farmazon_dbModel.Inventory" Width="1.5" PointX="5" PointY="1" />
-        <AssociationConnector Association="Farmazon_dbModel.Inventory_to_MarketItem" />
+        <EntityTypeShape EntityType="Farmazon_dbModel.Inventory" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

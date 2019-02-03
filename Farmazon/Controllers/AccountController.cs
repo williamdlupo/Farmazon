@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -173,6 +174,11 @@ namespace Farmazon.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    if (model.UserType.Contains("farmer"))
+                    {
+                        return RedirectToAction("Createfarm", "Account");
+                    }
+
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -204,10 +210,50 @@ namespace Farmazon.Controllers
                     context.CreateFarm(farmModel.FarmName, userId, farmModel.Description, farmModel.Location);
                     await context.SaveChangesAsync();
 
-                    return RedirectToAction("Createfarm", "Account");
+                    return RedirectToAction("Getfarm", "Account");
                 }
             }
             return View(farmModel);
+        }
+        
+        public ActionResult FillInventory()
+        {
+            return View();
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> FillInventory(Inventory inventory)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var context = new Farmazon_dbEntities())
+                {
+                    var userId = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
+
+                    context.CreateInventoryItem(userId, inventory.Quantity, inventory.Price, inventory.ProductName, inventory.PhotoLocation, inventory.Description, inventory.ReviewCount, inventory.ReviewStars);
+                    await context.SaveChangesAsync();
+
+                    return RedirectToAction("GetInventory", "Account");
+                }
+            }
+            return View(inventory);
+        }
+
+        public async Task<ActionResult> GetInventory()
+        {
+            var userId = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
+
+            using (var context = new Farmazon_dbEntities())
+            {
+                var myItems = await context.Set<Inventory>().Where(x => x.SellerId.Equals(userId)).ToListAsync();
+
+                if (myItems != null)
+                {
+                    return View(myItems);
+                }
+                return RedirectToAction("FillInventory");
+            }
         }
 
         //
