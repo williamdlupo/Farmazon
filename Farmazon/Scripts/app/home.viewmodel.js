@@ -26,7 +26,8 @@
         Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vitae nisi sed lectus sodales vestibulum. Cras eu leo quis nulla.",
         ReviewCount: 2400,
         ReviewText: function () { return this.ReviewCount + ' Reviews'; },
-        ReviewStars: 5
+        ReviewStars: 5,
+        Price: "$5.00"
     }
 
     this.clickAddCart = function (data) {

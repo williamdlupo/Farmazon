@@ -24,6 +24,7 @@
                 <i data-bind="attr: { class: (ReviewStars > 4 ? 'fas fa-star' : 'far fa-star')}" aria-hidden="true"></i>
             </span>
             <div class="reviews"><a data-bind="text: ReviewText()"></a></div>
+            <div data-bind="text: Price"></div>
             <button data-bind="click: $parent.clickAddCart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
         </div>
     </div>

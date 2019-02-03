@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -27,22 +28,17 @@ namespace Farmazon.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> FillInventory(Inventory inventory)
         {
-            if (ModelState.IsValid)
-            {
-                using (var context = new Farmazon_dbEntities())
+            using (var context = new Farmazon_dbEntities())
                 {
                     var userId = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
 
                     context.CreateInventoryItem(userId, inventory.Quantity, inventory.Price, inventory.ProductName, inventory.PhotoLocation, inventory.Description, inventory.ReviewCount, inventory.ReviewStars);
                     await context.SaveChangesAsync();
 
-                    return RedirectToAction("Index");
+                    return new HttpStatusCodeResult((int)HttpStatusCode.OK);
                 }
-            }
-            return RedirectToAction("Index");
         }
     }
 }
