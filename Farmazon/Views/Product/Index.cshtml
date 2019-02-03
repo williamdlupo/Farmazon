@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Products";
+}
+@section Scripts{
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/app")
+}
+<!-- ko with: product -->
+<div class="header">
+    <h2>Products</h2>
+    <button data-bind="click: openModal"><i class="fas fa-plus"></i> Add New</button>
+</div>
+<div class="products" data-bind="foreach: products">
+    <div class="item">
+        <div class="image">
+            <a><img data-bind="attr: { src: ProductImageURL }" /></a>
+        </div>
+        <div class="information">
+            <h4><a data-bind="text: ProductName"></a></h4>
+            <div class="description" data-bind="text: Description"></div>
+        </div>
+        <div class="rating">
+            <span>
+                <i data-bind="attr: { class: (ReviewStars > 0 ? 'fas fa-star' : 'far fa-star')}" aria-hidden="true"></i>
+                <i data-bind="attr: { class: (ReviewStars > 1 ? 'fas fa-star' : 'far fa-star')}" aria-hidden="true"></i>
+                <i data-bind="attr: { class: (ReviewStars > 2 ? 'fas fa-star' : 'far fa-star')}" aria-hidden="true"></i>
+                <i data-bind="attr: { class: (ReviewStars > 3 ? 'fas fa-star' : 'far fa-star')}" aria-hidden="true"></i>
+                <i data-bind="attr: { class: (ReviewStars > 4 ? 'fas fa-star' : 'far fa-star')}" aria-hidden="true"></i>
+            </span>
+            <div class="reviews"><a data-bind="text: ReviewText()"></a></div>
+            <button data-bind="click: $parent.openModal">Edit</button>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div id="productModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close fas fa-times" data-bind="click: closeModal"></span>
+            <h2>Product</h2>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li><label>Product Name:</label><input placeholder="Product Name" type="text" data-bind="value: productName" /></li>
+                <li><label>Price:</label><input placeholder="Price" type="text" data-bind="value: price" /></li>
+                <li><label>Quantity Available:</label><input placeholder="Quantity" type="text" data-bind="value: quantity" /></li>
+                <li><label>Description:</label><textarea placeholder="Description" data-bind="value: description"></textarea></li>
+                <li class="productImg"><img data-bind="attr: { src: productImageURL }" /><button>Upload Image</button></li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <button>Save</button>
+            <button data-bind="click: closeModal">Close</button>
+        </div>
+    </div>
+
+</div>
+<!-- /ko -->

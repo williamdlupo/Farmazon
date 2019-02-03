@@ -12,6 +12,8 @@ namespace Farmazon
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Farmazon_dbEntities : DbContext
     {
@@ -28,5 +30,82 @@ namespace Farmazon
         public virtual DbSet<Farm> Farms { get; set; }
         public virtual DbSet<MarketItem> MarketItems { get; set; }
         public virtual DbSet<Inventory> Inventories { get; set; }
+    
+        public virtual int CreateFarm(string farmName, string userId, string description, string location)
+        {
+            var farmNameParameter = farmName != null ?
+                new ObjectParameter("FarmName", farmName) :
+                new ObjectParameter("FarmName", typeof(string));
+    
+            var userIdParameter = userId != null ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(string));
+    
+            var descriptionParameter = description != null ?
+                new ObjectParameter("Description", description) :
+                new ObjectParameter("Description", typeof(string));
+    
+            var locationParameter = location != null ?
+                new ObjectParameter("Location", location) :
+                new ObjectParameter("Location", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CreateFarm", farmNameParameter, userIdParameter, descriptionParameter, locationParameter);
+        }
+    
+        public virtual int CreateInventoryItem(Nullable<int> itemId, string sellerId, Nullable<int> quantity, Nullable<decimal> price)
+        {
+            var itemIdParameter = itemId.HasValue ?
+                new ObjectParameter("ItemId", itemId) :
+                new ObjectParameter("ItemId", typeof(int));
+    
+            var sellerIdParameter = sellerId != null ?
+                new ObjectParameter("SellerId", sellerId) :
+                new ObjectParameter("SellerId", typeof(string));
+    
+            var quantityParameter = quantity.HasValue ?
+                new ObjectParameter("Quantity", quantity) :
+                new ObjectParameter("Quantity", typeof(int));
+    
+            var priceParameter = price.HasValue ?
+                new ObjectParameter("Price", price) :
+                new ObjectParameter("Price", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CreateInventoryItem", itemIdParameter, sellerIdParameter, quantityParameter, priceParameter);
+        }
+    
+        public virtual int CreateMarketItem(string title, string description, string photoLocation)
+        {
+            var titleParameter = title != null ?
+                new ObjectParameter("Title", title) :
+                new ObjectParameter("Title", typeof(string));
+    
+            var descriptionParameter = description != null ?
+                new ObjectParameter("Description", description) :
+                new ObjectParameter("Description", typeof(string));
+    
+            var photoLocationParameter = photoLocation != null ?
+                new ObjectParameter("PhotoLocation", photoLocation) :
+                new ObjectParameter("PhotoLocation", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CreateMarketItem", titleParameter, descriptionParameter, photoLocationParameter);
+        }
+    
+        public virtual int DeleteInventoryItem(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteInventoryItem", idParameter);
+        }
+    
+        public virtual int DeleteMarketItem(Nullable<int> marketItemID)
+        {
+            var marketItemIDParameter = marketItemID.HasValue ?
+                new ObjectParameter("MarketItemID", marketItemID) :
+                new ObjectParameter("MarketItemID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteMarketItem", marketItemIDParameter);
+        }
     }
 }

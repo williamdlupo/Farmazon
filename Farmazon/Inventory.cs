@@ -15,7 +15,7 @@ namespace Farmazon
     public partial class Inventory
     {
         public int ItemId { get; set; }
-        public int SellerId { get; set; }
+        public string SellerId { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
     

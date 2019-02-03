@@ -1,14 +1,12 @@
-﻿using System;
-using System.Globalization;
+﻿using Farmazon.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Farmazon.Models;
 
 namespace Farmazon.Controllers
 {
@@ -182,6 +180,34 @@ namespace Farmazon.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        //
+        // GET: /Account/Register
+        public ActionResult Createfarm()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/Createfarm
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateFarm(Farm farmModel)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var context = new Farmazon_dbEntities())
+                {
+                    var userId = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
+
+                    context.CreateFarm(farmModel.FarmName, userId, farmModel.Description, farmModel.Location);
+                    await context.SaveChangesAsync();
+
+                    return RedirectToAction("Createfarm", "Account");
+                }
+            }
+            return View(farmModel);
         }
 
         //
