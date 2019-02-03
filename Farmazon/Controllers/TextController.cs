@@ -18,6 +18,7 @@ namespace Farmazon.Controllers
             Regex wantBuy = new Regex(@"I want to buy\s([\w\s]+)", RegexOptions.IgnoreCase);
             Regex message = new Regex(@"Message\s(\w+)\s", RegexOptions.IgnoreCase);
             Regex wantSell = new Regex(@"I want to sell\s([\w\s]+)/(\d+)/(\d+)", RegexOptions.IgnoreCase);
+            Regex inArea = new Regex(@"for sale near me", RegexOptions.IgnoreCase);
 
             switch ("")
             {
@@ -31,6 +32,9 @@ namespace Farmazon.Controllers
                     response.Message($"Hi! This is {user}! I would love to sell to you, come to my farm to pick up at:\n" +
                         $"1234 Street Ave Farmington, MN 55555");
                     break;
+                case var val when inArea.IsMatch(requestBody):
+                    response.Message($"Stuff in your area.");
+                    break;
                 case var val when wantSell.IsMatch(requestBody):
                     string itemList = wantSell.Match(requestBody).Groups[1].Value;
                     string quant = wantSell.Match(requestBody).Groups[2].Value;
@@ -41,6 +45,7 @@ namespace Farmazon.Controllers
                     response.Message("Commands: \n" +
                         "Message <user> <message>\n" +
                         "I want to buy <item>\n" +
+                        "For sale near me\n" +
                         "I want to sell <item>/<count>/<price>");
                     break;
             }
