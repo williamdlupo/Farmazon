@@ -11,10 +11,11 @@ namespace Farmazon.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Display(Name = "Name")]
+        [Required]
+        [Display(Name = "Username")]
         public string Name { get; set; }
 
-        [Display(Name = "User Type")]
+        [Display(Name = "Farmer or Customer?")]
         public string UserType { get; set; }
     }
 
@@ -91,7 +92,7 @@ namespace Farmazon.Models
         [Display(Name = "Name")]
         public string Name { get; set; }
 
-        [Display(Name = "User Type")]
+        [Display(Name = "Farmer or Consumer")]
         public string UserType { get; set; }
     }
 
@@ -122,5 +123,5 @@ namespace Farmazon.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
-    }
+    }    
 }
