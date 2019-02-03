@@ -10,6 +10,7 @@ namespace Farmazon.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            ContextKey = "Farmazon.Models.ApplicationDbContext";
         }
 
         protected override void Seed(Farmazon.Models.ApplicationDbContext context)

@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Farmazon_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Farm">
+          <Key>
+            <PropertyRef Name="FarmId" />
+          </Key>
+          <Property Name="FarmId" Type="int" Nullable="false" />
+          <Property Name="FarmName" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Description" Type="nchar" MaxLength="240" />
+          <Property Name="Location" Type="nchar" MaxLength="120" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Farmazon_db.dbo.Inventory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="ItemId" />
+            <PropertyRef Name="SellerId" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="Price" />
+          </Key>
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="SellerId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MarketItem">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nchar" MaxLength="50" />
+          <Property Name="Description" Type="nchar" MaxLength="240" />
+          <Property Name="PhotoLocation" Type="nchar" MaxLength="120" />
+        </EntityType>
+        <Association Name="Inventory_to_MarketItem">
+          <End Role="MarketItem" Type="Self.MarketItem" Multiplicity="1" />
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MarketItem">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Market_to_Inventory">
+          <End Role="MarketItem" Type="Self.MarketItem" Multiplicity="1" />
+          <End Role="MarketItem1" Type="Self.MarketItem" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MarketItem">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="MarketItem1">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Farmazon_dbModelStoreContainer">
+          <EntitySet Name="Farm" EntityType="Self.Farm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MarketItem" EntityType="Self.MarketItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inventory" EntityType="Self.Inventory" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Inventory].[ItemId] AS [ItemId], 
+    [Inventory].[SellerId] AS [SellerId], 
+    [Inventory].[Quantity] AS [Quantity], 
+    [Inventory].[Price] AS [Price]
+    FROM [dbo].[Inventory] AS [Inventory]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="Inventory_to_MarketItem" Association="Self.Inventory_to_MarketItem">
+            <End Role="MarketItem" EntitySet="MarketItem" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="Market_to_Inventory" Association="Self.Market_to_Inventory">
+            <End Role="MarketItem" EntitySet="MarketItem" />
+            <End Role="MarketItem1" EntitySet="MarketItem" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Farmazon_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Farm">
+          <Key>
+            <PropertyRef Name="FarmId" />
+          </Key>
+          <Property Name="FarmId" Type="Int32" Nullable="false" />
+          <Property Name="FarmName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="240" FixedLength="true" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="120" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MarketItem">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="240" FixedLength="true" Unicode="true" />
+          <Property Name="PhotoLocation" Type="String" MaxLength="120" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Inventories" Relationship="Farmazon_dbModel.Inventory_to_MarketItem" FromRole="MarketItem" ToRole="Inventory" />
+          <NavigationProperty Name="MarketItem1" Relationship="Farmazon_dbModel.Market_to_Inventory" FromRole="MarketItem" ToRole="MarketItem1" />
+          <NavigationProperty Name="MarketItem2" Relationship="Farmazon_dbModel.Market_to_Inventory" FromRole="MarketItem1" ToRole="MarketItem" />
+        </EntityType>
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="ItemId" />
+            <PropertyRef Name="SellerId" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="Price" />
+          </Key>
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="SellerId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="MarketItem" Relationship="Farmazon_dbModel.Inventory_to_MarketItem" FromRole="Inventory" ToRole="MarketItem" />
+        </EntityType>
+        <EntityContainer Name="Farmazon_dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Farms" EntityType="Self.Farm" />
+          <EntitySet Name="MarketItems" EntityType="Self.MarketItem" />
+          <EntitySet Name="Inventories" EntityType="Self.Inventory" />
+          <AssociationSet Name="Inventory_to_MarketItem" Association="Farmazon_dbModel.Inventory_to_MarketItem">
+            <End Role="MarketItem" EntitySet="MarketItems" />
+            <End Role="Inventory" EntitySet="Inventories" />
+          </AssociationSet>
+          <AssociationSet Name="Market_to_Inventory" Association="Farmazon_dbModel.Market_to_Inventory">
+            <End Role="MarketItem" EntitySet="MarketItems" />
+            <End Role="MarketItem1" EntitySet="MarketItems" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="Inventory_to_MarketItem">
+          <End Type="Farmazon_dbModel.MarketItem" Role="MarketItem" Multiplicity="1" />
+          <End Type="Farmazon_dbModel.Inventory" Role="Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MarketItem">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Market_to_Inventory">
+          <End Type="Farmazon_dbModel.MarketItem" Role="MarketItem" Multiplicity="1" />
+          <End Type="Farmazon_dbModel.MarketItem" Role="MarketItem1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MarketItem">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="MarketItem1">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Farmazon_dbModelStoreContainer" CdmEntityContainer="Farmazon_dbEntities">
+          <EntitySetMapping Name="Farms">
+            <EntityTypeMapping TypeName="Farmazon_dbModel.Farm">
+              <MappingFragment StoreEntitySet="Farm">
+                <ScalarProperty Name="FarmId" ColumnName="FarmId" />
+                <ScalarProperty Name="FarmName" ColumnName="FarmName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MarketItems">
+            <EntityTypeMapping TypeName="Farmazon_dbModel.MarketItem">
+              <MappingFragment StoreEntitySet="MarketItem">
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PhotoLocation" ColumnName="PhotoLocation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inventories">
+            <EntityTypeMapping TypeName="Farmazon_dbModel.Inventory">
+              <MappingFragment StoreEntitySet="Inventory">
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
