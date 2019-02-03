@@ -1,32 +1,31 @@
 ﻿<!-- ko with: home -->
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<div class="refine">
+    <h4>Refine: </h4>
+    <label>Location:</label>
+    <input type="search" data-bind="value: zipCode, valueUpdate: 'afterkeydown'" placeholder="Zip Code"/>
 </div>
-<div class="row">
-    <div class="col-md-4">
-        <h2>Your information</h2>
-        <p>This section shows how you can call ASP.NET Web API to get the user details.</p>
-        <p data-bind="text: myHometown"></p>
-       
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=273732">Learn more &raquo;</a></p>
-    </div>
-
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET Single Page Application (SPA) helps you build applications that include significant client-side interactions using HTML, CSS, and JavaScript.
-            It's now easier than ever before to getting started writing highly interactive web applications.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=273732">Learn more &raquo;</a></p>
-    </div>
-
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+<div class="products" data-bind="foreach: products">
+    <div class="item">
+        <div class="image">
+            <a><img data-bind="attr: { src: ProductImageURL }" /></a>
+        </div>
+        <div class="information">
+            <h4><a data-bind="text: ProductName"></a></h4>
+            <div class="seller">Sold by <a data-bind="text: FarmerName"></a></div>
+            <div class="description" data-bind="text: Description"></div>
+            <div class="shipping">Get by <b>February 2, 2019</b></div>
+        </div>
+        <div class="rating">
+            <span>
+                <i data-bind="attr: { class: (ReviewStars > 0 ? 'fas fa-star' : 'far fa-star')}" aria-hidden="true"></i>
+                <i data-bind="attr: { class: (ReviewStars > 1 ? 'fas fa-star' : 'far fa-star')}" aria-hidden="true"></i>
+                <i data-bind="attr: { class: (ReviewStars > 2 ? 'fas fa-star' : 'far fa-star')}" aria-hidden="true"></i>
+                <i data-bind="attr: { class: (ReviewStars > 3 ? 'fas fa-star' : 'far fa-star')}" aria-hidden="true"></i>
+                <i data-bind="attr: { class: (ReviewStars > 4 ? 'fas fa-star' : 'far fa-star')}" aria-hidden="true"></i>
+            </span>
+            <div class="reviews"><a data-bind="text: ReviewText()"></a></div>
+            <button data-bind="click: $parent.clickAddCart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
     </div>
 </div>
-
 <!-- /ko -->
