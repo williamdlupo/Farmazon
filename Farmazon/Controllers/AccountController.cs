@@ -210,17 +210,33 @@ namespace Farmazon.Controllers
                     context.CreateFarm(farmModel.FarmName, userId, farmModel.Description, farmModel.Location);
                     await context.SaveChangesAsync();
 
-                    return RedirectToAction("Getfarm", "Account");
+                    return RedirectToAction("Getfarm");
                 }
             }
             return View(farmModel);
         }
-        
+
+        public async Task<ActionResult> Getfarm()
+        {
+            using (var context = new Farmazon_dbEntities())
+            {
+                var userId = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
+
+                var myFarm = await context.Set<Farm>().Where(x => x.UserId.Equals(userId)).FirstOrDefaultAsync();
+
+                if (myFarm != null)
+                {
+                    return View(myFarm);
+                }
+                return RedirectToAction("Createfarm");
+            }
+        }
+
         public ActionResult FillInventory()
         {
             return View();
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> FillInventory(Inventory inventory)

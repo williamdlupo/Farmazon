@@ -4,10 +4,9 @@
     ViewBag.Title = "Getfarm";
 }
 
-<h2>@Html.DisplayNameFor(model => model.FarmName)</h2>
+<h2>@Html.DisplayFor(model => model.FarmName)</h2>
 
 <div>
-    <h4>Farm</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -17,15 +16,7 @@
         <dd>
             @Html.DisplayFor(model => model.FarmName)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserId)
-        </dd>
-
+       
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -44,7 +35,4 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit Details", "Createfarm", new { id = Model.FarmId })
-</p>
-<p>@Html.ActionLink("Create your inventory", "FillInventory")</p>
+<p>@Html.ActionLink("Create your inventory", "Index", "Product")</p>
