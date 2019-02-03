@@ -3,5 +3,51 @@
     ViewBag.Title = "FarmerProfile";
 }
 
-<h2>FarmerProfile</h2>
+<div class="farmProfileBody">Farmer Jim Bo </div>
+
+<div class="farmProfileBody">
+    <div>
+        <img src="../Content/img/farmerJimBo.png" alt="Smiley face" width="240" height="240" align="left">
+        <div class="description">
+            <div class="subHeader">Description <hr align="left"/></div>
+            This is a basic description of a farm. Yanky doodle had a farm yeet yah yeet yah hyuuul Yanky doodle had a farm yeet yah yeet yah hyuuul
+            Yanky doodle had a farm yeet yah yeet yah
+            hyuuul Yanky doodle had a farm yeet yah yeet yah hyuuulYanky doodle had a farm yeet yah yeet yah hyuuulYanky doodle had a farm yeet yah yeet yah hyuuul
+        </div>
+        <div class="contactInfo">
+            <h4>Contact Information<hr align="left" /></h4>
+            Phone: 612-000-0000 E-Mail: jimbo@jimbofarming.com
+        </div>
+        <div>
+            <br />
+
+        </div>
+    </div>
+    <div>
+        <div class="cropTypes" align="left">
+            <div class="subHeader" align="left">Crop Types <hr align="left" /></div>
+            <div class="body">
+                Corn, Beets, Wheat, Squash, Dairy, Poultry
+            </div>
+        </div>
+        <div id="googleMap" align="left" class="googleMap"></div>
+
+        <script>
+            function myMap() {
+                var mapProp = {
+                    center: new google.maps.LatLng(44.691628, -93.503278),
+                    zoom: 17,
+                    mapTypeId: 'satellite'
+                };
+
+                var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+            }
+        </script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyQsiNnt_c2KYOjaKgoFTBGrJsqBlg8cU&callback=myMap"></script>
+
+    </div>
+    
+
+</div>
 
