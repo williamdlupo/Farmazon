@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="FarmId" />
           </Key>
-          <Property Name="FarmId" Type="int" Nullable="false" />
+          <Property Name="FarmId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FarmName" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="Description" Type="nchar" MaxLength="240" />
@@ -33,7 +33,7 @@ warning 6002: The table/view 'Farmazon_db.dbo.Inventory' does not have a primary
           <Key>
             <PropertyRef Name="ItemId" />
           </Key>
-          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="ItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nchar" MaxLength="50" />
           <Property Name="Description" Type="nchar" MaxLength="240" />
           <Property Name="PhotoLocation" Type="nchar" MaxLength="120" />
@@ -62,6 +62,29 @@ warning 6002: The table/view 'Farmazon_db.dbo.Inventory' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="CreateFarm" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FarmName" Type="nchar" Mode="In" />
+          <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nchar" Mode="In" />
+          <Parameter Name="Location" Type="nchar" Mode="In" />
+        </Function>
+        <Function Name="CreateInventoryItem" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ItemId" Type="int" Mode="In" />
+          <Parameter Name="SellerId" Type="nvarchar" Mode="In" />
+          <Parameter Name="Quantity" Type="int" Mode="In" />
+          <Parameter Name="Price" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="CreateMarketItem" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Title" Type="nchar" Mode="In" />
+          <Parameter Name="Description" Type="nchar" Mode="In" />
+          <Parameter Name="PhotoLocation" Type="nchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteInventoryItem" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteMarketItem" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MarketItemID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="Farmazon_dbModelStoreContainer">
           <EntitySet Name="Farm" EntityType="Self.Farm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketItem" EntityType="Self.MarketItem" Schema="dbo" store:Type="Tables" />
@@ -104,48 +127,46 @@ warning 6002: The table/view 'Farmazon_db.dbo.Inventory' does not have a primary
           <Property Name="Title" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="240" FixedLength="true" Unicode="true" />
           <Property Name="PhotoLocation" Type="String" MaxLength="120" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Inventories" Relationship="Farmazon_dbModel.Inventory_to_MarketItem" FromRole="MarketItem" ToRole="Inventory" />
           <NavigationProperty Name="MarketItem1" Relationship="Farmazon_dbModel.Market_to_Inventory" FromRole="MarketItem" ToRole="MarketItem1" />
           <NavigationProperty Name="MarketItem2" Relationship="Farmazon_dbModel.Market_to_Inventory" FromRole="MarketItem1" ToRole="MarketItem" />
-        </EntityType>
-        <EntityType Name="Inventory">
-          <Key>
-            <PropertyRef Name="ItemId" />
-            <PropertyRef Name="SellerId" />
-            <PropertyRef Name="Quantity" />
-            <PropertyRef Name="Price" />
-          </Key>
-          <Property Name="ItemId" Type="Int32" Nullable="false" />
-          <Property Name="SellerId" Type="Int32" Nullable="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-          <NavigationProperty Name="MarketItem" Relationship="Farmazon_dbModel.Inventory_to_MarketItem" FromRole="Inventory" ToRole="MarketItem" />
+          <NavigationProperty Name="Inventories" Relationship="Farmazon_dbModel.Inventory_to_MarketItem" FromRole="MarketItem" ToRole="Inventory" />
         </EntityType>
         <EntityContainer Name="Farmazon_dbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Farms" EntityType="Self.Farm" />
           <EntitySet Name="MarketItems" EntityType="Self.MarketItem" />
-          <EntitySet Name="Inventories" EntityType="Self.Inventory" />
-          <AssociationSet Name="Inventory_to_MarketItem" Association="Farmazon_dbModel.Inventory_to_MarketItem">
-            <End Role="MarketItem" EntitySet="MarketItems" />
-            <End Role="Inventory" EntitySet="Inventories" />
-          </AssociationSet>
           <AssociationSet Name="Market_to_Inventory" Association="Farmazon_dbModel.Market_to_Inventory">
             <End Role="MarketItem" EntitySet="MarketItems" />
             <End Role="MarketItem1" EntitySet="MarketItems" />
           </AssociationSet>
+          <FunctionImport Name="CreateFarm">
+            <Parameter Name="FarmName" Mode="In" Type="String" />
+            <Parameter Name="UserId" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Location" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CreateInventoryItem">
+            <Parameter Name="ItemId" Mode="In" Type="Int32" />
+            <Parameter Name="SellerId" Mode="In" Type="String" />
+            <Parameter Name="Quantity" Mode="In" Type="Int32" />
+            <Parameter Name="Price" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="CreateMarketItem">
+            <Parameter Name="Title" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="PhotoLocation" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteInventoryItem">
+          <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteMarketItem">
+          <Parameter Name="MarketItemID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Inventories" EntityType="Farmazon_dbModel.Inventory" />
+          <AssociationSet Name="Inventory_to_MarketItem" Association="Farmazon_dbModel.Inventory_to_MarketItem">
+            <End Role="MarketItem" EntitySet="MarketItems" />
+            <End Role="Inventory" EntitySet="Inventories" />
+          </AssociationSet>
         </EntityContainer>
-        <Association Name="Inventory_to_MarketItem">
-          <End Type="Farmazon_dbModel.MarketItem" Role="MarketItem" Multiplicity="1" />
-          <End Type="Farmazon_dbModel.Inventory" Role="Inventory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MarketItem">
-              <PropertyRef Name="ItemId" />
-            </Principal>
-            <Dependent Role="Inventory">
-              <PropertyRef Name="ItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="Market_to_Inventory">
           <End Type="Farmazon_dbModel.MarketItem" Role="MarketItem" Multiplicity="1" />
           <End Type="Farmazon_dbModel.MarketItem" Role="MarketItem1" Multiplicity="0..1" />
@@ -154,6 +175,31 @@ warning 6002: The table/view 'Farmazon_db.dbo.Inventory' does not have a primary
               <PropertyRef Name="ItemId" />
             </Principal>
             <Dependent Role="MarketItem1">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="ItemId" />
+            <PropertyRef Name="SellerId" />
+            <PropertyRef Name="Quantity" />
+            <PropertyRef Name="Price" />
+          </Key>
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="SellerId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="MarketItem" Relationship="Farmazon_dbModel.Inventory_to_MarketItem" FromRole="Inventory" ToRole="MarketItem" />
+        </EntityType>
+        <Association Name="Inventory_to_MarketItem">
+          <End Type="Farmazon_dbModel.MarketItem" Role="MarketItem" Multiplicity="1" />
+          <End Type="Farmazon_dbModel.Inventory" Role="Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MarketItem">
+              <PropertyRef Name="ItemId" />
+            </Principal>
+            <Dependent Role="Inventory">
               <PropertyRef Name="ItemId" />
             </Dependent>
           </ReferentialConstraint>
@@ -174,6 +220,16 @@ warning 6002: The table/view 'Farmazon_db.dbo.Inventory' does not have a primary
                 <ScalarProperty Name="Location" ColumnName="Location" />
               </MappingFragment>
             </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Farmazon_dbModel.Farm">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Farmazon_dbModel.Store.CreateFarm">
+                  <ScalarProperty Name="Location" ParameterName="Location" />
+                  <ScalarProperty Name="Description" ParameterName="Description" />
+                  <ScalarProperty Name="UserId" ParameterName="UserId" />
+                  <ScalarProperty Name="FarmName" ParameterName="FarmName" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MarketItems">
             <EntityTypeMapping TypeName="Farmazon_dbModel.MarketItem">
@@ -184,15 +240,45 @@ warning 6002: The table/view 'Farmazon_db.dbo.Inventory' does not have a primary
                 <ScalarProperty Name="PhotoLocation" ColumnName="PhotoLocation" />
               </MappingFragment>
             </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Farmazon_dbModel.MarketItem">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Farmazon_dbModel.Store.CreateMarketItem">
+                  <ScalarProperty Name="PhotoLocation" ParameterName="PhotoLocation" />
+                  <ScalarProperty Name="Description" ParameterName="Description" />
+                  <ScalarProperty Name="Title" ParameterName="Title" />
+                </InsertFunction>
+                <DeleteFunction FunctionName="Farmazon_dbModel.Store.DeleteMarketItem" >
+                  <ScalarProperty Name="ItemId" ParameterName="MarketItemID" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreateFarm" FunctionName="Farmazon_dbModel.Store.CreateFarm" />
+          <FunctionImportMapping FunctionImportName="CreateInventoryItem" FunctionName="Farmazon_dbModel.Store.CreateInventoryItem" />
+          <FunctionImportMapping FunctionImportName="CreateMarketItem" FunctionName="Farmazon_dbModel.Store.CreateMarketItem" />
+          <FunctionImportMapping FunctionImportName="DeleteInventoryItem" FunctionName="Farmazon_dbModel.Store.DeleteInventoryItem" />
+          <FunctionImportMapping FunctionImportName="DeleteMarketItem" FunctionName="Farmazon_dbModel.Store.DeleteMarketItem" />
           <EntitySetMapping Name="Inventories">
             <EntityTypeMapping TypeName="Farmazon_dbModel.Inventory">
               <MappingFragment StoreEntitySet="Inventory">
-                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
-                <ScalarProperty Name="SellerId" ColumnName="SellerId" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
               </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="Farmazon_dbModel.Inventory">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="Farmazon_dbModel.Store.CreateInventoryItem">
+                  <ScalarProperty Name="Price" ParameterName="Price" />
+                  <ScalarProperty Name="Quantity" ParameterName="Quantity" />
+                  <ScalarProperty Name="SellerId" ParameterName="SellerId" />
+                  <ScalarProperty Name="ItemId" ParameterName="ItemId" />
+                </InsertFunction>
+                <DeleteFunction FunctionName="Farmazon_dbModel.Store.DeleteInventoryItem" >
+                  <ScalarProperty Name="ItemId" ParameterName="Id" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
             </EntityTypeMapping>
           </EntitySetMapping>
         </EntityContainerMapping>
