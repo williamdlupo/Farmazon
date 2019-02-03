@@ -34,3 +34,48 @@ textarea {
         padding: 10px 15px;
     }
 }
+
+.item {
+    min-height: 11em;
+    background-color: blue;
+    max-height: 11em;
+    display: flex;
+    flex-direction: row;
+}
+
+.item .image {
+    height: 11em;
+    width: 25%;
+    background: red;
+    padding: .8125em 5.3125em;
+}
+
+.item .image img {
+    height: 9.375em;
+    width: 9.375em;
+}
+
+.item .information {
+    width: 50%;
+    height: 11em;
+    background: green;
+    padding: 0 3em;
+}
+
+.item .information h4 {
+    margin-bottom: 0;
+}
+
+.item .information .seller {
+    font-size: .8em;
+}
+
+.item .information .shipping {
+    font-size: .8em;
+}
+
+.item .rating {
+    height: 11em;
+    width: 25%;
+    background: pink;
+}
