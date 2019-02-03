@@ -18,7 +18,10 @@ namespace Farmazon
         public string SellerId { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
-    
-        public virtual MarketItem MarketItem { get; set; }
+        public string ProductName { get; set; }
+        public string PhotoLocation { get; set; }
+        public string Description { get; set; }
+        public int ReviewCount { get; set; }
+        public Nullable<int> ReviewStars { get; set; }
     }
 }

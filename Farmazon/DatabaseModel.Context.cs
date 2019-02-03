@@ -28,7 +28,6 @@ namespace Farmazon
         }
     
         public virtual DbSet<Farm> Farms { get; set; }
-        public virtual DbSet<MarketItem> MarketItems { get; set; }
         public virtual DbSet<Inventory> Inventories { get; set; }
     
         public virtual int CreateFarm(string farmName, string userId, string description, string location)
@@ -52,12 +51,8 @@ namespace Farmazon
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CreateFarm", farmNameParameter, userIdParameter, descriptionParameter, locationParameter);
         }
     
-        public virtual int CreateInventoryItem(Nullable<int> itemId, string sellerId, Nullable<int> quantity, Nullable<decimal> price)
+        public virtual int CreateInventoryItem(string sellerId, Nullable<int> quantity, Nullable<decimal> price, string productName, string photoLocation, string description, Nullable<int> reviewCount, Nullable<int> reviewStars)
         {
-            var itemIdParameter = itemId.HasValue ?
-                new ObjectParameter("ItemId", itemId) :
-                new ObjectParameter("ItemId", typeof(int));
-    
             var sellerIdParameter = sellerId != null ?
                 new ObjectParameter("SellerId", sellerId) :
                 new ObjectParameter("SellerId", typeof(string));
@@ -70,7 +65,27 @@ namespace Farmazon
                 new ObjectParameter("Price", price) :
                 new ObjectParameter("Price", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CreateInventoryItem", itemIdParameter, sellerIdParameter, quantityParameter, priceParameter);
+            var productNameParameter = productName != null ?
+                new ObjectParameter("ProductName", productName) :
+                new ObjectParameter("ProductName", typeof(string));
+    
+            var photoLocationParameter = photoLocation != null ?
+                new ObjectParameter("PhotoLocation", photoLocation) :
+                new ObjectParameter("PhotoLocation", typeof(string));
+    
+            var descriptionParameter = description != null ?
+                new ObjectParameter("Description", description) :
+                new ObjectParameter("Description", typeof(string));
+    
+            var reviewCountParameter = reviewCount.HasValue ?
+                new ObjectParameter("ReviewCount", reviewCount) :
+                new ObjectParameter("ReviewCount", typeof(int));
+    
+            var reviewStarsParameter = reviewStars.HasValue ?
+                new ObjectParameter("ReviewStars", reviewStars) :
+                new ObjectParameter("ReviewStars", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CreateInventoryItem", sellerIdParameter, quantityParameter, priceParameter, productNameParameter, photoLocationParameter, descriptionParameter, reviewCountParameter, reviewStarsParameter);
         }
     
         public virtual int CreateMarketItem(string title, string description, string photoLocation)
