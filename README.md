@@ -1,4 +1,4 @@
 # Farmazon
-Team name: Thique Clicks 
-Members: Joshua McKelvey, Nate McKelvey, Bill Lupo, and Katana Davannavong
-Table #: 21
+Team name: Thique Clicks <br/>
+Members: Joshua McKelvey, Nate McKelvey, Bill Lupo, and Katana Davannavong <br/>
+Table #: 21 <br/>
