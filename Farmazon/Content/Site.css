@@ -79,3 +79,75 @@ textarea {
     width: 25%;
     background: pink;
 }
+
+/*
+    Farmers Profile
+*/
+.farmProfileBody  {
+    font-size:25pt;
+    margin-bottom: 0px;
+    padding:0px;
+    
+}
+.farmProfileBody img {
+    margin-bottom: 5px;
+    padding: 5px;
+    
+}
+.farmProfileBody .description {
+
+    font-size: 15pt;
+    
+}
+.farmProfileBody .description hr {
+    border-style: inset;
+    border-width: 1px;
+    width: 120px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.farmProfileBody .description .subHeader{
+    font-size:24px;
+    margin-top:0px;
+    margin-bottom: 0px;
+}
+.farmProfileBody .contactInfo {
+    font-size: 9pt;
+    
+}
+.farmProfileBody .contactInfo hr {
+    border-style: inset;
+    border-width: 1px;
+    width: 155px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.farmProfileBody .contactInfo h4{
+    margin-bottom: 0px;
+}
+.farmProfileBody .googleMap {
+    padding:20px;
+    margin: 5px;
+    width: 100%;
+    height: 400px;
+}
+.farmProfileBody .cropTypes .subHeader {
+    width: 100%;
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+.farmProfileBody .cropTypes .subHeader hr{
+    border-style: inset;
+    border-width:1px;
+    color: black;
+    width: 120px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.farmProfileBody .cropTypes .body {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
