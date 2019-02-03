@@ -341,7 +341,6 @@ a {
 }
 .farmProfileBody .contactInfo {
     font-size: 9pt;
-    
 }
 .farmProfileBody .contactInfo hr {
     border-style: inset;
@@ -378,3 +377,4 @@ a {
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 20px;
+}
