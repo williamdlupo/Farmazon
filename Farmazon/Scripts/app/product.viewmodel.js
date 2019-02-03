@@ -31,6 +31,24 @@
         });
     }
 
+    this.getData = function () {
+        var request = $.ajax({
+            url: "../../Product/FillInventory",
+            method: "POST",
+            data: {
+                ItemId: self.productID,
+                Quantity: self.quantity,
+                Price: self.price,
+                ProductName: self.productName,
+                PhotoLocation: self.productImageURL,
+                Description: self.description,
+                ReviewCount: 100,
+                ReviewStars: 5
+            },
+            dataType: "JSON",
+            success: self.closeModal.bind(self)
+        });
+    }
    
 
     // Get the modal

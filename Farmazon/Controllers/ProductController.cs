@@ -27,6 +27,24 @@ namespace Farmazon.Controllers
             }
         }
 
+        public async Task<ActionResult> GetInventory()
+        {
+            var userId = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
+
+            using (var context = new Farmazon_dbEntities())
+            {
+                var myItems = await context.Set<Inventory>().Where(x => x.SellerId.Equals(userId)).ToListAsync();
+
+                if (myItems == null)
+                {
+                    return View();
+                }
+
+                return View(myItems);
+            }
+        }
+
+
         [HttpPost]
         public async Task<ActionResult> FillInventory(Inventory inventory)
         {

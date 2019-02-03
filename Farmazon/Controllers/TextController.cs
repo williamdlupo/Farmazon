@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using Twilio.AspNet.Mvc;
@@ -33,7 +35,16 @@ namespace Farmazon.Controllers
                         $"1234 Street Ave Farmington, MN 55555");
                     break;
                 case var val when inArea.IsMatch(requestBody):
-                    response.Message($"Stuff in your area.");
+                    string resp = "";
+                    using (var context = new Farmazon_dbEntities())
+                    {
+                        IList<Inventory> myItems = context.Set<Inventory>().ToList();
+                        foreach (Inventory itemDB in myItems)
+                        {
+                            resp += $"{itemDB.ProductName.Trim()} ({itemDB.Quantity}) - ${itemDB.Price}\n";
+                        }
+                    }
+                    response.Message(resp);
                     break;
                 case var val when wantSell.IsMatch(requestBody):
                     string itemList = wantSell.Match(requestBody).Groups[1].Value;
